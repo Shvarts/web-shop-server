@@ -1,29 +1,32 @@
-import express from 'express';
-import path from 'path';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import routes from './routes';
-import mongoose from 'mongoose';
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const routes = require('./routes');
+const mongoose = require('mongoose');
 
 const app = express();
+
 app.disable('x-powered-by');
+
+app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Connection to database
-const mongoURI = 'mongodb://localhost/products';
-mongoose.connect(mongoURI);
+const mongodbURI = 'mongodb://localhost/products';
+mongoose.connect(mongodbURI);
 
 const db = mongoose.connection;
-db
-    .on('error', (err) => {
-        console.log(`Could not connect to mongo server! ${err}`);
-    })
-    .once('open', (res) => {
-        console.log('Connected to mongo server.');
-    });
+db.on('error', (err) => {
+    console.log(`Could not connect to mongodb server! ${err}`);
+});
+db.once('open', (res) => {
+    console.log('Connected to mongodb server.');
+});
 
 // Routes
 app.use(routes);
@@ -44,4 +47,4 @@ app.use((err, req, res, next) => {
         });
 });
 
-export default app;
+module.exports = app;

@@ -1,15 +1,7 @@
-import {Router} from 'express';
+const express = require('express');
+const routes = express.Router();
+const productController = require('../controllers/product.controller');
 
-const routes = Router();
-const names = [{
-    names: [
-        {name: 'Ihor'},
-        {name: 'Nikolay'}
-    ]
-}];
+routes.get('/', productController.getAllProducts);
 
-routes.get('/', (req, res) => {
-    res.json(names);
-});
-
-export default routes;
+module.exports = routes;
