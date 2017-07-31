@@ -61,6 +61,6 @@ typings/
 .env
 
 # Custom
-.idea
+.idea/*
 dist
 npm

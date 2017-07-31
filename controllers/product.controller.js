@@ -37,8 +37,6 @@ class ProductController {
             .catch(error => {
                 console.log(error);
             });
-
-        return promise;
     }
 }
 
